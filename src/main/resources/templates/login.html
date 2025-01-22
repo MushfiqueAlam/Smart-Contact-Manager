@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::script})}" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+</head>
+
+<body>
+    <div id="content">
+        <div class="grid grid-cols-12 mt-4">
+            <div class="col-span-2 md:col-span-3 lg:col-span-4 xl:col-span-3"></div>
+            <div class="col-span-8 md:col-span-6 lg:col-span-4 xl:col-span-6">
+
+                <div
+                    class="block  p-6 bg-white border-t-blue-600 border-t-8 rounded-xl shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-t-blue-700 dark:hover:bg-gray-700">
+                    <div th:replace="message::messagebox"></div>
+
+                    <h5 class="mb-2 text-2xl font-bold tracking-tight text-gray-900 dark:text-white">Login</h5>
+                    <p class="font-normal text-gray-700 dark:text-gray-400">Start managing contact in cloud</p>
+                    <div th:if="${param.error}" class="text-red-600">Invalid username and password</div>
+                    <div th:if="${param.logout}" class="text-green-600 ">You have been logged out</div>
+                    <form 
+                    method="post" 
+                    th:action="@{'/authenticate'}"
+                    class="mt-4" novalidate>
+
+                        <div class="mb-3">
+                            <label for="email" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                email</label>
+                            <input type="email" id="email"
+                                name="email"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                placeholder="name@flowbite.com" required />
+                            <!-- <p th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="text-red-700 py2 px-1"> -->
+                            </p>
+                        </div>
+                        <div class="mb-3">
+                            <label for="password"
+                                class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your
+                                password</label>
+                            <input type="password" id="password" name="password"
+                                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                                required />
+                            <!-- <p th:if="${#fields.hasErrors('password')}" th:errors="*{password}"
+                                class="text-red-700 py2 px-1">
+                            </p> -->
+                        </div>
+                        <div class="mt-4 flex justify-center space-x-3  ">
+                            <button class="bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded"
+                                type="submit">
+                                SignIn</button>
+                                <button class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                                type="reset">
+                                reset</button>
+                        </div>
+
+                    </form>
+                    <div class="social-buttons-container flex justify-center py-4">
+                        <a class="px-3 py-2 login-with-google-btn "
+                        th:href="@{'/oauth2/authorization/google'}">Login with Google</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <script>
+        console.log('this is login page');
+    </script>
+</body>
+
+</html>

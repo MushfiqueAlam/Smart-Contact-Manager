@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::script})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+<body>
+    <div id="content">
+    <h1 class="text-blue-700 text-lg">Yes Now I am in Home Page</h1>
+    <h2 th:text="${name}"></h2>
+    <h2 th:text="${git}"></h2>
+    <a th:href="${gitlink}">click Here</a>
+</div>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+</body>
+</html>

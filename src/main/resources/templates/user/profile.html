@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::script})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title th:text="${loggedUser.name}+' | scm'">profile page</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+</head>
+<body>
+    <div id="content">
+        <!-- Sidebar -->
+
+         <!-- when user logged in then there sidebar -->
+    <div th:if="${loggedUser}">
+        <div th:replace="~{user/sidebar :: sidebar}"></div>
+    </div>
+    <div  class="sm:pl-64 pt-20 items-center" style="height: 1000px">
+     <div class=" flex items-center justify-center  flex-col">
+    <h1 class="text-blue-700 text-5xl ">Yes Now I am my profile page</h1>
+   <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. A ab, voluptatibus repellendus dicta laudantium laboriosam aspernatur error eius sit fugiat?</p>
+</div>
+</div>
+</div>
+    
+    
+    
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en" 
+class="light"
+th:fragment="parent(content,script)" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" th:href="@{/css/output.css}">
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<style>
+    /* Light theme styles */
+    html.light {
+        background-color: white;
+        color: black;
+    }
+
+    /* Dark theme styles */
+    html.dark {
+        background-color: black;
+        color: white;
+    }
+</style>
+<body >
+   <!-- header -->
+
+   <!-- When user logged in -->
+   <div th:if="${loggedUser}">
+
+       <div th:replace="~{user/user_navbar :: user_navbar}"></div>
+   </div>
+
+  
+
+   <!-- When user logged out -->
+   <div th:unless="${loggedUser}">
+    <div th:replace="~{navbar :: navbar}"></div>
+   </div>
+
+    <div class="p-5">
+        <section th:replace="${content}"></section>
+    </div>
+
+    <!-- <footer>this is footer </footer> -->
+
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
+    <script th:src="@{'/js/script.js'}"></script>
+    <th:block th:replace="${script}"></th:block>
+</body>
+</html>
