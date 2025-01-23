@@ -8,10 +8,10 @@ th:classappend="*{'text-'+type+'-800 border border-'+type+'-300 rounded-lg bg-'+
     </svg>
     <span class="sr-only">Info</span>
     <div> 
-      <span th:text="*{message}"></span>
+      <span th:text="*{content}"></span>
     </div>
     <th:block th:text="${@sessionHelper.removeMessage()}">
-    </th:bblock>
+    </th:block>
   </div>
  
 

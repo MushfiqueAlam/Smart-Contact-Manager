@@ -13,7 +13,7 @@ import lombok.Setter;
 @Builder
 public class Message {
     
-    private String message;
+    private String content;
     @Builder.Default
     private MessageType type=MessageType.blue;
 
