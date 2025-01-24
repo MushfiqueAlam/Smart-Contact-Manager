@@ -30,7 +30,10 @@
                             client from this site</p>
 
                         <!-- Add new contact form -->
-                        <form class="mt-8" th:action="@{/user/contacts/add}" th:object="${contactForm}" method="post">
+                        <form class="mt-8" th:action="@{/user/contacts/add}" th:object="${contactForm}" 
+                            method="post"
+                            enctype="multipart/form-data"
+                         >
                             <div class="mb-3">
                                 <label for="input-group-1"
                                     class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">ContactName</label>
@@ -147,8 +150,11 @@
                                 <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
                                     for="large_size">Contact Image</label>
                                 <input
+                                    id="image_file_input"
                                     class="block w-full  text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-                                    id="small_size" type="file">
+                                        th:field="*{contactImage}"
+                                     type="file">
+                                     <img src="" class="max-h-28 mx-auto rounded-lg shadow-md" id="upload_image_preview" alt="">
                             </div>
 
                             <div class="flex items-center mb-3">
@@ -175,7 +181,7 @@
     </div>
 
 
-
+    <script th:src="@{'/js/admin.js'}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>

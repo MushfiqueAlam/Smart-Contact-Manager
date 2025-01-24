@@ -5,4 +5,7 @@ public class AppConstant {
     public static final String ADMIN_ROLE = "ADMIN";
     public static final String USER_ROLE = "USER";
     public static final Object ROLE_USER = null;
+    public static final int Contact_Image_Width=500;
+    public static final int Contact_Image_Height=500;
+    public static final String Conatct_Image_Fill="fill";
 }
