@@ -33,7 +33,7 @@ public class Contact {
     @Column(length = 500)
     private String description;
     private String picture;
-    private boolean favourite=false;
+    private boolean favorite;
     private String websiteLink;
     private String linkedInLink;
     private String cloudinaryImagePublicId;

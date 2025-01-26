@@ -1,8 +1,10 @@
 package com.scm.controller;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -10,11 +12,13 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.scm.entities.Contact;
 import com.scm.entities.User;
 import com.scm.entities.providers;
 import com.scm.forms.ContactForm;
+import com.scm.helpers.AppConstant;
 import com.scm.helpers.Helper;
 import com.scm.helpers.Message;
 import com.scm.helpers.MessageType;
@@ -71,7 +75,7 @@ public class ContactController {
 
         Contact contact=new Contact();
         contact.setName(contactForm.getName());
-        contact.setFavourite(contactForm.isFavorite());
+        contact.setFavorite(contactForm.isFavorite());
         contact.setEmail(contactForm.getEmail());
         contact.setPhone(contactForm.getPhoneNumber());
         contact.setAddress(contactForm.getAddress());
@@ -89,6 +93,26 @@ public class ContactController {
        
 
         return "redirect:/user/contacts/add";
+    }
+
+    //View contacts handler
+
+    @RequestMapping
+    public String viewContacts(@RequestParam(value = "page",defaultValue = "0") int page,
+     @RequestParam(value = "size",defaultValue = "10") int size,
+     @RequestParam(value = "sortBy",defaultValue = "name") String sortBy,
+     @RequestParam(value = "direction",defaultValue = "asc") String direction, 
+      Model model,Authentication authentication){
+        //load all contacts
+       String userName= Helper.getEmailOfLoggedInUser(authentication);
+       User user=userServices.getUserByEmail(userName);
+       
+      Page<Contact> pageContact= contactService.getByUser(user,page,size,sortBy,direction);
+      model.addAttribute("pageContact", pageContact);
+      model.addAttribute("pageSize",AppConstant.PAZE_SIZE);
+
+
+        return "user/contacts";
     }
     
 }

@@ -2,7 +2,11 @@ package com.scm.services;
 
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+
 import com.scm.entities.Contact;
+import com.scm.entities.User;
 
 public interface ContactService {
     // save contact
@@ -28,4 +32,6 @@ public interface ContactService {
     //get contact by userId
 
     List<Contact>getByUserId(String userId);
+
+    Page<Contact>getByUser(User user,int page,int size,String sortField,String direction);
 }
