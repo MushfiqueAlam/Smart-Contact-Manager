@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add contact</title>
+    <title>update contact</title>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.css" rel="stylesheet" />
     <link rel="stylesheet" th:href="@{/css/output.css}">
 </head>
@@ -23,14 +23,13 @@
                 <div class="col-span-12 md:col-span-6  ">
                     <div
                         class="card block max-w-sm p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
-                       <div th:replace="~{message :: messagebox}"></div>
+                       
 
-                        <h1 class="text-2xl font-semibold">Add contact</h1>
-                        <p class="text-gray-500">This contact will be stored on cloud , You can directly email this
-                            client from this site</p>
-
+                        <h1 class="text-2xl font-semibold">update contact</h1>
+                        <div th:replace="~{message :: messagebox}"></div>
                         <!-- Add new contact form -->
-                        <form class="mt-8" th:action="@{/user/contacts/add}" th:object="${contactForm}" 
+                        <form class="mt-8" th:action="@{'/user/contacts/update/'+${contactId}}"
+                             th:object="${contactForm}" 
                             method="post"
                             enctype="multipart/form-data"
                          >
@@ -153,11 +152,10 @@
                                     id="image_file_input"
                                     class="block w-full  text-xs text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
                                         th:field="*{contactImage}"
-                                     type="file" >
-                                     
-                                     <p class="text-red-500" th:if="${session.message}" th:text="${session.message}"></p>
-        
-                                     <img src="" class="max-h-28 mx-auto rounded-lg shadow-md" id="upload_image_preview" alt="">
+                                     type="file">
+                                     <img 
+                                        th:src="*{picture}"
+                                      class="max-h-28 mx-auto rounded-lg shadow-md" id="upload_image_preview" alt="">
                             </div>
 
                             <div class="flex items-center mb-3">
@@ -170,7 +168,7 @@
 
                             <div class="button_container text-center">
                                 <button type="submit"
-                                    class="px-3 py-2 dark:bg-blue-700 dark:hover:bg-blue-800 bg-black hover:bg-slate-700 text-white rounded">Add
+                                    class="px-3 py-2 dark:bg-blue-700 dark:hover:bg-blue-800 bg-black hover:bg-slate-700 text-white rounded">Update
                                     Contact</button>
                                 <button type="reset"
                                     class="px-3 py-2 dark:bg-blue-700 dark:hover:bg-blue-800 bg-black hover:bg-slate-700 text-white rounded">Reset</button>

@@ -9,10 +9,13 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import com.scm.entities.Contact;
 import com.scm.entities.User;
@@ -68,12 +71,8 @@ public class ContactController {
 
         String userName=Helper.getEmailOfLoggedInUser(authentication);
         User user= userServices.getUserByEmail(userName);
-        //upload image code
-        String fileName=UUID.randomUUID().toString();
-
-        String fileUrl=imageService.uploadImage(contactForm.getContactImage(),fileName);
         
-
+        
         Contact contact=new Contact();
         contact.setName(contactForm.getName());
         contact.setFavorite(contactForm.isFavorite());
@@ -84,12 +83,22 @@ public class ContactController {
         contact.setUser(user);
         contact.setLinkedInLink(contactForm.getLinkedInLink());
         contact.setWebsiteLink(contactForm.getWebsiteLink());
+        
+        //upload image code
+        if(contactForm.getContactImage() != null && !contactForm.getContactImage().isEmpty()){
+        String fileName=UUID.randomUUID().toString();
+
+        String fileUrl=imageService.uploadImage(contactForm.getContactImage(),fileName);
         contact.setPicture(fileUrl);
         contact.setCloudinaryImagePublicId(fileName);
 
+        }
+    
         contactService.save(contact);
 
-        System.out.println(contactForm);
+        // System.out.println(contactForm);
+
+
          session.setAttribute("message",Message.builder().content("You have successfully added a new contact").type(MessageType.green).build());
        
 
@@ -145,6 +154,70 @@ public class ContactController {
         System.out.println(pageContact);
 
         return "user/search";
+    }
+
+    //Delete Contact
+    @RequestMapping("/delete/{id}")
+    
+    public String deleteContact(@PathVariable("id") String id,HttpSession session){
+        contactService.delete(id);
+        session.setAttribute("message",Message.builder().content("You have successfully deleted the contact").type(MessageType.green).build());
+        return "redirect:/user/contacts";
+
+    }
+
+    //update contact from
+
+    @GetMapping("/view/{contactId}")
+    public String updateContactView(@PathVariable("contactId") String contactId,Model model){
+      var contact=  contactService.getById(contactId);
+
+      ContactForm contactForm=new ContactForm();
+      contactForm.setName(contact.getName());
+      contactForm.setEmail(contact.getEmail());
+      contactForm.setPhoneNumber(contact.getPhone());
+      contactForm.setAddress(contact.getAddress());
+      contactForm.setDescription(contact.getDescription());
+      contactForm.setWebsiteLink(contact.getWebsiteLink());
+      contactForm.setLinkedInLink(contact.getLinkedInLink());
+      contactForm.setFavorite(contact.isFavorite());
+      contactForm.setPicture(contact.getPicture());
+      model.addAttribute("contactForm", contactForm);
+      model.addAttribute("contactId", contactId);
+        return "user/update_contact_view";
+    }
+
+    @RequestMapping(value = "/update/{contactId}",method = RequestMethod.POST)
+    public String updateContact(@PathVariable("contactId") String contactId,@Valid @ModelAttribute ContactForm contactForm,BindingResult result,Model model,HttpSession session){
+
+        if(result.hasErrors()){
+           return "user/update_contact_view";
+        }
+
+        var contact=contactService.getById(contactId);
+        contact.setId(contactId);
+        contact.setName(contactForm.getName());
+        contact.setEmail(contactForm.getEmail());
+        contact.setPhone(contactForm.getPhoneNumber());
+        contact.setAddress(contactForm.getAddress());
+        contact.setDescription(contactForm.getDescription());
+        contact.setWebsiteLink(contactForm.getWebsiteLink());
+        contact.setLinkedInLink(contactForm.getLinkedInLink());
+        contact.setFavorite(contactForm.isFavorite());
+        
+
+        // Image Processing
+        if(contactForm.getContactImage()!=null && !contactForm.getContactImage().isEmpty()){
+            String fileName=UUID.randomUUID().toString();
+        String imageUrl= imageService.uploadImage(contactForm.getContactImage(), fileName);
+        contact.setCloudinaryImagePublicId(fileName);
+        contact.setPicture(imageUrl);
+        contactForm.setPicture(imageUrl);
+        }
+
+       var updatedConatct= contactService.update(contact);
+       session.setAttribute("message", Message.builder().content("Contact Updated").type(MessageType.green).build());
+        return "redirect:/user/contacts/view/"+contactId;
     }
     
 }

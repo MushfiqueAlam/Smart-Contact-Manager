@@ -6,7 +6,6 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -31,8 +30,20 @@ public class ContactServiceImpl implements ContactService{
 
     @Override
     public Contact update(Contact contact) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'update'");
+      var oldContact=  contactRepo.findById(contact.getId()).orElseThrow(()->new ResourceNotFoundException("Contact not found"));
+
+      oldContact.setName(contact.getName());
+      oldContact.setEmail(contact.getEmail());
+      oldContact.setPhone(contact.getPhone());
+      oldContact.setAddress(contact.getAddress());
+      oldContact.setDescription(contact.getDescription());
+      oldContact.setPicture(contact.getPicture());
+      oldContact.setFavorite(contact.isFavorite());
+      oldContact.setWebsiteLink(contact.getWebsiteLink());
+      oldContact.setLinkedInLink(contact.getLinkedInLink());
+      oldContact.setCloudinaryImagePublicId(contact.getCloudinaryImagePublicId());
+
+      return contactRepo.save(oldContact);
     }
 
     @Override
