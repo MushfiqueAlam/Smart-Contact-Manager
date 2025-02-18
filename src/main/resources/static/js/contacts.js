@@ -35,7 +35,7 @@ function closeContactModal(){
     console.log(id);
     try {
         const data=await(
-            await fetch(`http://localhost:8080/api/contacts/${id}`)
+            await fetch( `${baseURL}/api/contacts/` + id)
         ).json()
         console.log(data)
         document.querySelector("#contact_name").innerHTML=data.name;

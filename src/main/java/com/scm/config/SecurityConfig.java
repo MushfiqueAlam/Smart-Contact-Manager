@@ -8,7 +8,11 @@ import org.springframework.security.config.annotation.authentication.builders.Au
 import org.springframework.security.config.annotation.authentication.configurers.userdetails.DaoAuthenticationConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.User;
+
+import java.io.IOException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -18,9 +22,14 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.scm.services.impl.SecurityCustomUserDetailsService;
+
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 @Configuration
 public class SecurityConfig {
@@ -28,6 +37,9 @@ public class SecurityConfig {
     private SecurityCustomUserDetailsService userDetailsService;
     @Autowired
     private OAuthenticationSuccessHandler oAuthenticationSuccessHandler;
+    @Autowired
+    AuthFailureHandler authFailureHandler;
+
     // user create and login using java code with in memory service
     // @Bean
     // @Bean
@@ -76,11 +88,13 @@ public class SecurityConfig {
             formLogin.usernameParameter("email");
             formLogin.passwordParameter("password");
             formLogin.successHandler((request, response, authentication) -> {
-                response.sendRedirect("/uer/profile");
+                response.sendRedirect("/user/profile");
             });
             formLogin.failureHandler((request, response, exception) -> {
                 response.sendRedirect("/login?error");
             });
+
+            formLogin.failureHandler(authFailureHandler);
         });
 
         httpSecurity.csrf(AbstractHttpConfigurer::disable);

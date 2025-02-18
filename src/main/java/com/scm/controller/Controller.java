@@ -104,12 +104,13 @@ public class Controller {
         user.setPassword(userForm.getPassword());
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setAbout(userForm.getAbout());
+        user.setEnabled(false);
         user.setProfilePic(null);
 
        User userSaved= userServices.saveUser(user);
        System.out.println(userSaved); 
         // message successully registered
-       Message message =Message.builder().message("Successfully Registered").type(MessageType.green).build();
+       Message message =Message.builder().content("Successfully Registered").type(MessageType.green).build();
         session.setAttribute("message", message);
 
         // return to register page

@@ -118,18 +118,21 @@
                     <td class="px-6 py-4">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">
                             <div class="flex gap-1">
-                                <a href="">
+                                <button th:onclick="deleteContact([[${c.id}]])">
+
                                     <img class="h-5 w-5"
                                         src="https://th.bing.com/th?id=OIP.m98rRDOJFdK9GRT85luivQHaIF&w=239&h=261&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"
-                                        alt=""></a>
-                                <a href="">
+                                        alt=""></button>
+                                <a th:href="@{'/user/contacts/view/'+*{id}}">
                                     <img class="w-5 h-5"
                                         src="https://th.bing.com/th?id=OIP.YTK5CDuJmgkdVblJqT4exQHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"
                                         alt=""></a>
-                                <a href="">
+                                <button th:onclick="loadContactData([[${c.id}]])"
+                                        >
                                     <img class="w-5 h-5"
                                         src="https://th.bing.com/th?id=OIP.PjodJ2qJqef4vCZzfzqHZwHaHa&w=250&h=250&c=8&rs=1&qlt=90&o=6&dpr=1.5&pid=3.1&rm=2"
-                                        alt=""></a>
+                                        alt=""></button>
+                                        
                             </div>
                         </a>
                     </td>
@@ -170,13 +173,13 @@
       >
         No result found
       </h1>
+      <div th:replace="~{user/contact_modals :: contact}"></div>
     </div>
-
 </div>
 </div>
     
     
-    
+<script th:src="@{'/js/contacts.js'}"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@2.5.2/dist/flowbite.min.js"></script>
 
 </body>
