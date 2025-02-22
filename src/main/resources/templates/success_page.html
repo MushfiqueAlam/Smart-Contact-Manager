@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" th:replace="~{base :: parent(~{::#content},~{::script})}" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+   <div id="content" class="mt-5 md:w-1/2 mx-auto text-center">
+   <h1
+   th:replace="~{message::messagebox}"
+   ></h1>
+   </div>
+   <script>
+         console.log('this is contact page');
+   </script>
+</body>
+</html>
