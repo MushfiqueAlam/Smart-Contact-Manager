@@ -43,9 +43,9 @@ public class OAuthenticationSuccessHandler implements AuthenticationSuccessHandl
                     logger.info(key+":"+value);
                 });
 
-                String email = oauthUser.getAttribute("email").toString();
-                String name = oauthUser.getAttribute("name").toString();
-                String picture = oauthUser.getAttribute("picture").toString();
+                String email = oauthUser.getAttribute("email");
+                String name = oauthUser.getAttribute("name");
+                String picture = oauthUser.getAttribute("picture");
                 String provider = authorizedClientRegistrationId.toUpperCase();
 
                 Optional<User> userExists = userRepo.findByEmail(email);
@@ -53,7 +53,7 @@ public class OAuthenticationSuccessHandler implements AuthenticationSuccessHandl
                     User newUser = new User();
                     newUser.setEmail(email);
                     newUser.setName(name);
-                    newUser.setProfilePic(picture);
+                    newUser.setProfilePic(picture != null ? picture : "/default-profile.png");
                     newUser.setProvider(providers.valueOf(provider));
                     newUser.setPassword("123456");
                     newUser.setUserId(UUID.randomUUID().toString());

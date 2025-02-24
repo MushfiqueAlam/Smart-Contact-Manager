@@ -1,6 +1,9 @@
 package com.scm.controller;
 
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,6 +20,7 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 
 
 
@@ -105,7 +109,8 @@ public class Controller {
         user.setPhoneNumber(userForm.getPhoneNumber());
         user.setAbout(userForm.getAbout());
         user.setEnabled(false);
-        user.setProfilePic(null);
+        String profilePicUrl = fetchGoogleProfilePicture(userForm.getEmail());
+        user.setProfilePic(profilePicUrl!=null?profilePicUrl:"https://www.pngkit.com/png/detail/126-1262807_instagram-default-profile-picture-png.png");
 
        User userSaved= userServices.saveUser(user);
        System.out.println(userSaved); 
@@ -116,5 +121,20 @@ public class Controller {
         // return to register page
         return "redirect:/register";
     }
+    private String fetchGoogleProfilePicture(String email) {
+    try {
+        String googleApiUrl = "https://www.googleapis.com/oauth2/v2/userinfo?alt=json&email=" + email;
+        RestTemplate restTemplate = new RestTemplate();
+        ResponseEntity<Map> response = restTemplate.getForEntity(googleApiUrl, Map.class);
+
+        if (response.getStatusCode().is2xxSuccessful() && response.getBody() != null) {
+            return response.getBody().get("picture").toString();
+        }
+    } catch (Exception e) {
+        System.out.println("Error fetching profile picture: " + e.getMessage());
+    }
+    return null; // Return null if fetching fails
+}
+
 
 }

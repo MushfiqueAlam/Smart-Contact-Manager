@@ -768,6 +768,10 @@ video {
   height: 100vh;
 }
 
+.h-16 {
+  height: 4rem;
+}
+
 .max-h-28 {
   max-height: 7rem;
 }
@@ -957,6 +961,10 @@ video {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded-2xl {
+  border-radius: 1rem;
 }
 
 .rounded-b {
@@ -1506,8 +1514,16 @@ video {
     display: none;
   }
 
-  .sm\:h-7 {
-    height: 1.75rem;
+  .sm\:h-12 {
+    height: 3rem;
+  }
+
+  .sm\:h-16 {
+    height: 4rem;
+  }
+
+  .sm\:h-20 {
+    height: 5rem;
   }
 
   .sm\:translate-x-0 {
