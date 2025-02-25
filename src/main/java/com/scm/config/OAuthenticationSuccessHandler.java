@@ -43,28 +43,42 @@ public class OAuthenticationSuccessHandler implements AuthenticationSuccessHandl
                     logger.info(key+":"+value);
                 });
 
-                String email = oauthUser.getAttribute("email");
-                String name = oauthUser.getAttribute("name");
-                String picture = oauthUser.getAttribute("picture");
-                String provider = authorizedClientRegistrationId.toUpperCase();
+                // String email = oauthUser.getAttribute("email");
+                // String name = oauthUser.getAttribute("name");
+                // String picture = oauthUser.getAttribute("picture");
+                // String provider = authorizedClientRegistrationId.toUpperCase();
 
-                Optional<User> userExists = userRepo.findByEmail(email);
-                if (userExists.isEmpty()) {
-                    User newUser = new User();
-                    newUser.setEmail(email);
-                    newUser.setName(name);
-                    newUser.setProfilePic(picture != null ? picture : "/default-profile.png");
-                    newUser.setProvider(providers.valueOf(provider));
-                    newUser.setPassword("123456");
-                    newUser.setUserId(UUID.randomUUID().toString());
-                    newUser.setEnabled(true);
-                    newUser.setEmailVerified(true);
-                    newUser.setRoleList(List.of(AppConstant.USER_ROLE));                 
-                    newUser.setAbout("This account is created using " + provider + " OAuth2");
+                // Optional<User> userExists = userRepo.findByEmail(email);
+                // if (userExists.isEmpty()) {
+                //     User newUser = new User();
+                //     newUser.setEmail(email);
+                //     newUser.setName(name);
+                //     newUser.setProfilePic(picture != null ? picture : "/default-profile.png");
+                //     newUser.setProvider(providers.valueOf(provider));
+                //     newUser.setPassword("123456");
+                //     newUser.setUserId(UUID.randomUUID().toString());
+                //     newUser.setEnabled(true);
+                //     newUser.setEmailVerified(true);
+                //     newUser.setRoleList(List.of(AppConstant.USER_ROLE));                 
+                //     newUser.setAbout("This account is created using " + provider + " OAuth2");
 
-                    userRepo.save(newUser);
-                    logger.info("User Created");
+                //     userRepo.save(newUser);
+                //     logger.info("User Created");
 
+                // }
+
+                User user=new User();
+                user.setUserId(UUID.randomUUID().toString());
+                user.setRoleList(List.of(AppConstant.USER_ROLE));
+                user.setEmailVerified(true);
+                user.setEnabled(true);
+                user.setPassword("123456");
+                if(authorizedClientRegistrationId.equalsIgnoreCase("google")){
+                    user.setEmail(oauthUser.getAttribute("email").toString());
+                    user.setName(oauthUser.getAttribute("name"));
+                    user.setProfilePic(oauthUser.getAttribute("picture"));
+                    user.setProvider(providers.GOOGLE);
+                    // user.setProviderId(oauthUser.getName());
                 }
 
 
