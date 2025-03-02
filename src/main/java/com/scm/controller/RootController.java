@@ -33,6 +33,8 @@ public class RootController {
         
         System.out.println("User profile : "+username);
         System.out.println(user);
+        System.out.println();
+        System.out.println(user.getProfilePic());
     }
 
 }

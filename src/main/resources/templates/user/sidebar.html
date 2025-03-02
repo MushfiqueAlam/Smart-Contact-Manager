@@ -3,11 +3,16 @@
    aria-label="Sidebar">
    <div class="h-full px-3 py-4 overflow-y-auto bg-gray-50 dark:bg-gray-800">
       <a href="https://flowbite.com/" class="flex flex-col items-center ps-2.5 mb-5">
-         <img th:src="@{${loggedUser.profilePic}}"
-          class="h-16 me-3 sm:h-20 rounded-full shadow-md" alt="Flowbite Logo" />
-          <span th:text="${loggedUser.name}">Mushfique</span>
+         <img
+         onerror="this.onerror=null; this.src='https://flowbite.com/docs/images/logo.svg'"
+         data-th-src="@{${loggedUser.profilePic}}"
+         src="https://flowbite.com/docs/images/logo.svg"
+         class="h-16 me-3 sm:h-24 shadow-md rounded-full"
+         alt="Flowbite Logo"
+       />
+         <span th:text="${loggedUser  != null ? loggedUser .name : 'Guest'}">Mushfique</span>
          <span class="self-center text-xl font-semibold whitespace-nowrap dark:text-white">Welcome to SCM</span>
-      </a>
+     </a>
       <ul class="space-y-2 font-medium">
          <li>
             <a th:href="@{'/user/dashboard'}"

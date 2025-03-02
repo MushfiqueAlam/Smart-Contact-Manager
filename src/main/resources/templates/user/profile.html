@@ -22,7 +22,10 @@
                 <!--  profie card -->
                 <div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-lg max-w-2xl w-full">
                     <div class="flex flex-col items-center">
-                        <img data-th-src="@{${loggedUser.profilePic}}" src="path/to/profilePic.jpg"
+
+                        <img 
+                        onerror="this.onerror=null; this.src='https://flowbite.com/docs/images/logo.svg'"
+                        data-th-src="@{${loggedUser.profilePic}}" src="path/to/profilePic.jpg"
                             alt="Profile Photo" class="w-44 h-44 rounded-full shadow-lg object-cover mb-4">
                         <h2 class="text-2xl font-semibold mb-2" data-th-text=${loggedUser.name}>User Name</h2>
                         <p class="text-gray-600 mb-2" data-th-text="${loggedUser.email}">user.email@example.com</p>

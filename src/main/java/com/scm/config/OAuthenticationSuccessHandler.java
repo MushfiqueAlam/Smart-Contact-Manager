@@ -74,10 +74,12 @@ public class OAuthenticationSuccessHandler implements AuthenticationSuccessHandl
                 user.setEnabled(true);
                 user.setPassword("123456");
                 if(authorizedClientRegistrationId.equalsIgnoreCase("google")){
-                    user.setEmail(oauthUser.getAttribute("email").toString());
+                    user.setEmail(oauthUser.getAttribute("email"));
                     user.setName(oauthUser.getAttribute("name"));
                     user.setProfilePic(oauthUser.getAttribute("picture"));
+                    
                     user.setProvider(providers.GOOGLE);
+                    user.setAbout("This account created by Google");
                     // user.setProviderId(oauthUser.getName());
                 }
 
@@ -118,7 +120,11 @@ public class OAuthenticationSuccessHandler implements AuthenticationSuccessHandl
         //     userRepo.save(newUser);
         //     logger.info("User Created");
         // }
-
+        User user2 = userRepo.findByEmail(user.getEmail()).orElse(null);
+        if (user2 == null) {
+            userRepo.save(user);
+            System.out.println("user saved:" + user.getEmail());
+        }
         new DefaultRedirectStrategy().sendRedirect(request, response, "/user/profile");
     }
 
